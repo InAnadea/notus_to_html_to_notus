@@ -24,7 +24,7 @@ class NotusToHTML {
         html = html + _decodeNotusBlock(notusDocLine);
       }
     }
-    return html;
+    return html.replaceAll('\n', '');
   }
 
   static _getLineAttributes(NotusNode notusModel) {
@@ -36,6 +36,10 @@ class NotusToHTML {
       return ['<h2>', '</h2>'];
     } else if (notusModel.attributes!.b == true) {
       return ['<b>', '</b>'];
+    } else if (notusModel.attributes!.u == true) {
+      return ['<u>', '</u>'];
+    } else if (notusModel.attributes!.i == true) {
+      return ['<i>', '</i>'];
     }
   }
 
@@ -60,8 +64,18 @@ class NotusToHTML {
     for (int i = 0; i < notusDocLine.length; i++) {
       if (notusDocLine.elementAt(i).attributes == null) {
         html = html + notusDocLine.elementAt(i).insert!;
-      } else if (notusDocLine.elementAt(i).attributes!.b == true) {
-        html = html + '<b>' + notusDocLine.elementAt(i).insert! + '</b>';
+      } else {
+        String element = notusDocLine.elementAt(i).insert!;
+        if (notusDocLine.elementAt(i).attributes!.b == true) {
+          element = '<b>' + element + '</b>';
+        }
+        if (notusDocLine.elementAt(i).attributes!.u == true) {
+          element = '<u>' + element + '</u>';
+        }
+        if (notusDocLine.elementAt(i).attributes!.i == true) {
+          element = '<i>' + element + '</i>';
+        }
+        html = html + element;
       }
     }
     return html;
@@ -77,7 +91,7 @@ class NotusToHTML {
     for (int i = 0; i < blockLinesList.length; i++) {
       childrenHtml = childrenHtml +
           '<li>' +
-          _decodeNotusLine(blockLinesList.elementAt(i)) +
+          _decodeLineChildren(blockLinesList.elementAt(i)) +
           '</li>';
     }
 

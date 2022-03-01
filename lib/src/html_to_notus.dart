@@ -4,7 +4,7 @@ import 'package:zefyrka/zefyrka.dart';
 class HtmlToNotus {
   static NotusDocument getNotusFromHtml(var text) {
     final document = NotusDocument();
-    var data = parse(text.toString()).body;
+    var data = parse(text.toString().replaceAll('\n', '')).body;
     if (data == null) {
       return document;
     }
@@ -38,16 +38,38 @@ class HtmlToNotus {
     return document;
   }
 
+  static _getChildrenAttributes(var node) {
+    List<String> attributes = [];
+    for (var child in node.children) {
+      attributes.addAll(_getChildrenAttributes(child));
+    }
+
+    if (node.toString().contains('<html b>')) {
+      attributes.add('b');
+    } else if (node.toString().contains('<html u>')) {
+      attributes.add('u');
+    } else if (node.toString().contains('<html i>')) {
+      attributes.add('i');
+    }
+
+    return attributes;
+  }
+
   static _formatParagraph(var line) {
     LineNode lineNode = LineNode();
     for (int j = 0; j < line.nodes.length; j++) {
-      LeafNode leaf = LeafNode(line.nodes[j].text.replaceAll('\n', ''));
-      if (line.nodes[j].toString().contains('<html b>')) {
+      LeafNode leaf = LeafNode(line.nodes[j].text);
+      List<String> attributes = _getChildrenAttributes(line.nodes[j]);
+      if (attributes.contains('b')) {
         leaf.applyAttribute(NotusAttribute.bold);
-        lineNode.add(leaf);
-      } else {
-        lineNode.add(leaf);
       }
+      if (attributes.contains('u')) {
+        leaf.applyAttribute(NotusAttribute.underline);
+      }
+      if (attributes.contains('i')) {
+        leaf.applyAttribute(NotusAttribute.italic);
+      }
+      lineNode.add(leaf);
     }
     return lineNode;
   }
