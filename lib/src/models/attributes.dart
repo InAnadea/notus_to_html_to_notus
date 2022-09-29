@@ -4,11 +4,12 @@ class Attributes {
   bool? b = false;
   bool? i = false;
   bool? u = false;
+  bool? s = false;
 
   /* NotusAttribute.italic
   NotusAttribute.link*/
 
-  Attributes({this.heading, this.block, this.b, this.i, this.u});
+  Attributes({this.heading, this.block, this.b, this.i, this.u, this.s});
 
   factory Attributes.fromJson(dynamic json) {
     return Attributes(
@@ -17,6 +18,7 @@ class Attributes {
       b: json['b'],
       i: json['i'],
       u: json['u'],
+      s: json['s'],
     );
   }
 
@@ -27,6 +29,7 @@ class Attributes {
       'b': b,
       'i': i,
       'u': u,
+      's': s,
     };
   }
 }

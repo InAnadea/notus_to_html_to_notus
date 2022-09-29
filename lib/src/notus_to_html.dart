@@ -40,6 +40,8 @@ class NotusToHTML {
       return ['<u>', '</u>'];
     } else if (notusModel.attributes!.i == true) {
       return ['<i>', '</i>'];
+    } else if (notusModel.attributes!.s == true) {
+      return ['<s>', '</s>'];
     }
   }
 
@@ -74,6 +76,9 @@ class NotusToHTML {
         }
         if (notusDocLine.elementAt(i).attributes!.i == true) {
           element = '<i>' + element + '</i>';
+        }
+        if (notusDocLine.elementAt(i).attributes!.s == true) {
+          element = '<s>' + element + '</s>';
         }
         html = html + element;
       }

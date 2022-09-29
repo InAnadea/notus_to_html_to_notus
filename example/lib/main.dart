@@ -41,13 +41,22 @@ class _MyHomePageState extends State<MyHomePage> {
   NotusDocument createNotusDoc() {
     final doc = NotusDocument();
     doc.insert(
-        0, 'This package will help you convert notus document to html format');
-    doc.format(0, 0, NotusAttribute.h1);
+      0,
+      'This package will help you convert notus document to html format',
+    );
+    doc.format(0, doc.length, NotusAttribute.h1);
+    var prevLength = doc.length;
+    doc.insert(
+      prevLength - 1,
+      'This is strikethrough text',
+    );
+    doc.format(prevLength - 1, doc.length, NotusAttribute.strikethrough);
     return doc;
   }
 
   String createHtmlDoc() {
-    return '<h1>This package will help you convert html to notus document format</h1>';
+    return '<h1>This package will help you convert html to notus document format</h1>'
+        ' <s>This is strikethrough text</s> ';
   }
 
   @override

@@ -33,6 +33,10 @@ class HtmlToNotus {
         BlockNode block = BlockNode();
         block = _formatBlock(data.nodes[i], NotusAttribute.block.numberList);
         document.root.add(block);
+      } else if (data.nodes[i].toString().contains('<html s>')) {
+        LineNode line = LineNode();
+        line = _formatParagraph(data.nodes[i]);
+        document.root.add(line);
       }
     }
     return document;
@@ -68,6 +72,9 @@ class HtmlToNotus {
       }
       if (attributes.contains('i')) {
         leaf.applyAttribute(NotusAttribute.italic);
+      }
+      if (attributes.contains('s')) {
+        leaf.applyAttribute(NotusAttribute.strikethrough);
       }
       lineNode.add(leaf);
     }
