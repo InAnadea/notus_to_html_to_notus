@@ -55,8 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String createHtmlDoc() {
-    return '<h1>This package will help you convert html to notus document format</h1>'
-        ' <s>This is strikethrough text</s> ';
+    return '<p><b>Bold</b></p><p><i>Italic</i></p><p><u>Underline</u></p><p><s>Stroke</s></p><p>Link</p>';
   }
 
   @override

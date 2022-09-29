@@ -54,6 +54,8 @@ class HtmlToNotus {
       attributes.add('u');
     } else if (node.toString().contains('<html i>')) {
       attributes.add('i');
+    } else if (node.toString().contains('<html s>')) {
+      attributes.add('s');
     }
 
     return attributes;
